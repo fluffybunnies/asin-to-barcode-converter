@@ -36,6 +36,28 @@ html, body {
 	margin-right: 0;
 }
 
+
+body {
+	font-family: Lato, "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;
+	font-size: 15px;
+	line-height: 1.5;
+	background: #3e4b5a;
+	color: #fff;
+}
+.header {
+	background: #1e1f26;
+	padding: 1px 0 14px 15px;
+}
+.header h1 {
+	font-size: 1.3rem;
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+.header .subtitle {
+	font-style: italic;
+	font-size: 0.9rem;
+	color: #ccc;
+}
 .form {
 	padding: 40px;
 	width: 400px;
@@ -116,6 +138,11 @@ $(() => {
 </head>
 <body>
 
+
+<div class="header">
+	<h1>ASIN to Barcode Converter</h1>
+	<div class="subtitle">Print Code128 barcodes to Avery 6467 label sheets</div>
+</div>
 
 
 <div class="form">
