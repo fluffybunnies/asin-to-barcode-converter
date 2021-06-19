@@ -1,0 +1,30 @@
+{
+	"name": "asin-to-barcode-converter",
+	"version": "0.0.0",
+	"description": "ASIN to Barcode Converter",
+	"keywords": [
+		"asin",
+		"barcode",
+		"converter",
+		"ean",
+		"upc"
+	],
+	"author": "fluffybunnies",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:fluffybunnies/asin-to-barcode-converter.git"
+	},
+	"homepage": "https://github.com/fluffybunnies/asin-to-barcode-converter",
+	"bugs": {
+		"url": "https://github.com/fluffybunnies/asin-to-barcode-converter/issues"
+	},
+	"main": "",
+	"scripts": {
+	},
+	"dependencies": {
+		"minimist": "1.2.5"
+	},
+	"devDependencies": {
+	}
+}

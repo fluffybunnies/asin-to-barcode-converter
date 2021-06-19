@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ASIN to Barcode Converter</title>
+<style type="text/css">
+/*
+LR Margin   Label Width   Label Margin
+.28125*2   +   1.75*4   +   .3125*3     =  8.5in
+
+TB Margin   Label Height
+.5*2       +   .5*20        =  11in
+*/
+@page  {
+	size: 8.5in 11in;
+	margin: 0;
+	padding: 0;
+}
+html, body {
+	width: 8.5in;
+	height: 11in;
+	margin: 0;
+	padding: 0;
+}
+.page {
+	padding: .5in .28125in;
+	page-break-after: always;
+}
+.page .label {
+	width: 1.75in;
+	height: .5in;
+	margin-right: .3125in;
+	display: block;
+	float: left;
+}
+.page .label:last-child {
+	margin-right: 0;
+}
+
+.form {
+	padding: 40px;
+	width: 400px;
+}
+.form .form-row {
+	margin-bottom: 1em;
+}
+.form label {
+	font-weight: bold;
+}
+.form textarea {
+	width: 100%;
+	height: 10em;
+}
+.form button {
+	width: 100%;
+	padding: 0.6em 1em;
+}
+</style>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+  integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+  crossorigin="anonymous"></script>
+<script>
+
+Generator = {
+	defaultSymbology: 'CODE128'
+	,imgUrl: 'https://www.barcodez.net/barcode.image.php?barcode_data={code}&symbology={symbology}&barcode_height=60&barcode_scale=3&barcode_color=000000&background_color=ffffff'
+	,numPerRow: 4
+	,rowPerPage: 20
+
+	,buildTable: function(codeList) {
+		const pages = []
+
+		let rowIndex = -1, $page, $row
+		codeList.forEach((code, index) => {
+			if (index % this.numPerRow == 0) {
+				if (++rowIndex % this.rowPerPage == 0) {
+					pages.push($page = $('<div class="page">'))
+				}
+				$page.append($row = $('<div class="row">'))
+			}
+			$row.append('<img class="label" src="'+this.makeImgUrl(code)+'" />')
+		})
+
+		return pages
+	}
+
+	,makeImgUrl: function(code) {
+		return this.imgUrl.replace('{code}', code).replace('{symbology}', this.defaultSymbology)
+	}
+}
+
+$(() => {
+	const $body = $('body')
+	,$input = $body.find('.form textarea')
+	,$submit = $body.find('.form button')
+	,$message = $body.find('.form .form-message')
+
+	$submit.bind('click', (evt) => {
+		evt.preventDefault()
+		$message.html('')
+
+		const inputLines = $input.val().trim().split(/\r?\n/).map(line => {
+			return line.trim()
+		}).filter(line => {
+			return line != ''
+		})
+
+		if (inputLines.length == 0) {
+			return $message.html('Please enter at least one ASIN')
+		}
+
+		$body.html(Generator.buildTable(inputLines))
+	})
+})
+</script>
+</head>
+<body>
+
+
+
+<div class="form">
+	<div class="form-row">
+		<label>Enter ASINs, one per line:</label>
+	</div>
+	<div class="form-row">
+		<textarea></textarea>
+	</div>
+	<div class="form-row">
+		<button>Submit</button>
+	</div>
+	<div class="form-row form-message"></div>
+</div>
+
+
+</body>
+</html>
