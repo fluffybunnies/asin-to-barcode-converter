@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>ASIN to QR Code Converter</title>
+<title>ASIN to Barcode Converter</title>
 <style type="text/css">
 /*
-LR Margin    Label Width
-.28*2     +   2.64666*3    =  8.5in
+LR Margin   Label Width   Label Margin
+.28125*2   +   1.75*4   +   .3125*3     =  8.5in
 
-TB Margin    Label Height
-.28*2       +   .696*15     =  11in
+TB Margin   Label Height
+.5*2       +   .5*20        =  11in
 */
 @page  {
 	size: 8.5in 11in;
@@ -22,33 +22,18 @@ html, body {
 	padding: 0;
 }
 .page {
-	padding: .28in .28in;
+	padding: .5in .28125in;
 	page-break-after: always;
 }
 .page .label {
-	width: 2.64666in;
-	height: .696in;
+	width: 1.75in;
+	height: .5in;
+	margin-right: .3125in;
 	display: block;
 	float: left;
 }
 .page .label:last-child {
 	margin-right: 0;
-}
-.page .label .qrcode {
-	width: .57in !important;
-	height: .57in !important;
-	float: left;
-}
-.page .label .info {
-	width: 1.83in;
-	padding-right: 0.2in;
-	padding-top: 0.01in;
-	float: right;
-	line-height: 1.7;
-}
-.page .label .info .asin {
-}
-.page .label .info .title {
 }
 
 
@@ -62,7 +47,6 @@ body {
 @media print {
 	body {
 		background: transparent;
-		color: #000;
 	}
 }
 .header {
@@ -105,11 +89,13 @@ body {
   src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
   integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
   crossorigin="anonymous"></script>
-<script src="./qrcode.min.js"></script>
 <script>
+
 Generator = {
-	numPerRow: 3
-	,rowPerPage: 15
+	defaultSymbology: 'CODE128'
+	,imgUrl: 'https://www.barcodez.net/barcode.image.php?barcode_data={code}&symbology={symbology}&barcode_height=60&barcode_scale=3&barcode_color=000000&background_color=ffffff'
+	,numPerRow: 4
+	,rowPerPage: 20
 
 	,buildTable: function(codeList) {
 		const pages = []
@@ -122,16 +108,14 @@ Generator = {
 				}
 				$page.append($row = $('<div class="row">'))
 			}
-			const $label = $('<div class="label"><canvas class="qrcode"></canvas><div class="info"><div class="title">'+code.title+'</div><div class="asin">'+code.code+'</div></div>');
-			$row.append($label)
-			QRCode.toCanvas($label.find('.qrcode')[0], code.code, err => {
-				if (err) {
-					console.error('Failed to generate QR code', err)
-				}
-			})
+			$row.append('<img class="label" src="'+this.makeImgUrl(code)+'" />')
 		})
 
 		return pages
+	}
+
+	,makeImgUrl: function(code) {
+		return this.imgUrl.replace('{code}', code).replace('{symbology}', this.defaultSymbology)
 	}
 }
 
@@ -146,13 +130,9 @@ $(() => {
 		$message.html('')
 
 		const inputLines = $input.val().trim().split(/\r?\n/).map(line => {
-			const cols = line.split(',')
-			return {
-				code: (typeof cols[0] == 'string' ? cols[0] : '').trim()
-				,title: (typeof cols[1] == 'string' ? cols[1] : '').trim()
-			}
+			return line.trim()
 		}).filter(line => {
-			return line.code != ''
+			return line != ''
 		})
 
 		if (inputLines.length == 0) {
@@ -168,12 +148,14 @@ $(() => {
 
 
 <div class="header">
-	<h1>QR Code Converter</h1>
+	<h1>ASIN to Barcode Converter</h1>
+	<div class="subtitle">Print Code128 barcodes to <a href="https://www.sheetlabels.com/labels/SL105-RXW">SL105-RXW</a> label sheets
 </div>
+
 
 <div class="form">
 	<div class="form-row">
-		<label>Enter ASINs and title, comma-delimited, one per line:</label>
+		<label>Enter ASINs, one per line:</label>
 	</div>
 	<div class="form-row">
 		<textarea></textarea>

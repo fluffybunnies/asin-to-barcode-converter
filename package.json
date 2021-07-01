@@ -20,11 +20,9 @@
 		"url": "https://github.com/fluffybunnies/asin-to-barcode-converter/issues"
 	},
 	"main": "",
-	"scripts": {
-	},
+	"scripts": {},
 	"dependencies": {
 		"minimist": "1.2.5"
 	},
-	"devDependencies": {
-	}
+	"devDependencies": {}
 }
