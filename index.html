@@ -150,7 +150,12 @@ $(() => {
 		$message.html('')
 
 		const inputLines = $input.val().trim().split(/\r?\n/).map(line => {
-			const cols = line.split(',')
+			let cols
+			if (line.indexOf('\t') != -1) {
+				cols = line.split('\t')
+			} else {
+				cols = line.split(',')
+			}
 			return {
 				code: (typeof cols[0] == 'string' ? cols[0] : '').trim()
 				,title: (typeof cols[1] == 'string' ? cols[1] : '').trim()
