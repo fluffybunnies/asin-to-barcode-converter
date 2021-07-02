@@ -49,6 +49,9 @@ body {
 		background: transparent;
 	}
 }
+a, a:link, a:visited, a:hover, a:active {
+	color: #ccc;
+}
 .header {
 	background: #1e1f26;
 	padding: 1px 0 14px 15px;
@@ -63,8 +66,9 @@ body {
 	font-size: 0.9rem;
 	color: #ccc;
 }
-.subtitle a, .subtitle a:link, .subtitle a:visited, .subtitle a:hover, .subtitle a:active {
-	color: #ccc;
+.nav {
+	padding: 10px 40px 0 40px;
+	font-style: italic;
 }
 .form {
 	padding: 40px;
@@ -90,7 +94,6 @@ body {
   integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
   crossorigin="anonymous"></script>
 <script>
-
 Generator = {
 	defaultSymbology: 'CODE128'
 	,imgUrl: 'https://www.barcodez.net/barcode.image.php?barcode_data={code}&symbology={symbology}&barcode_height=60&barcode_scale=3&barcode_color=000000&background_color=ffffff'
@@ -149,9 +152,10 @@ $(() => {
 
 <div class="header">
 	<h1>ASIN to Barcode Converter</h1>
-	<div class="subtitle">Print Code128 barcodes to <a href="https://www.sheetlabels.com/labels/SL105-RXW">SL105-RXW</a> label sheets
+	<div class="subtitle">Print Code128 barcodes to <a href="https://www.sheetlabels.com/labels/SL105-RXW">SL105-RXW</a> label sheets</div>
 </div>
 
+<div class="nav">Looking for the QR Code Converter? <a href="./index.html">Click here.</a></div>
 
 <div class="form">
 	<div class="form-row">
